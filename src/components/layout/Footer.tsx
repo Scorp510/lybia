@@ -1,10 +1,37 @@
+import React, { forwardRef } from "react";
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { toast } from "sonner";
 
-const Footer = () => {
+const Footer = forwardRef<HTMLElement>((_, ref) => {
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) {
+      toast.error("الرجاء إدخال البريد الإلكتروني");
+      return;
+    }
+    if (!email.includes("@")) {
+      toast.error("الرجاء إدخال بريد إلكتروني صحيح");
+      return;
+    }
+    toast.success("تم الاشتراك بنجاح! شكراً لك");
+    setEmail("");
+  };
+
+  const handleSocialClick = (platform: string) => {
+    toast.info(`سيتم فتح ${platform}`);
+  };
+
+  const handleLinkClick = (link: string) => {
+    toast.info(`سيتم الانتقال إلى: ${link}`);
+  };
+
   return (
-    <footer className="bg-header border-t border-border mt-12">
+    <footer ref={ref} className="bg-header border-t border-border mt-12">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
@@ -14,16 +41,36 @@ const Footer = () => {
               متجرك الموثوق للإلكترونيات ومكونات الكمبيوتر في الإمارات. توصيل سريع وأسعار تنافسية.
             </p>
             <div className="flex gap-3">
-              <Button size="icon" variant="ghost" className="hover:bg-primary hover:text-primary-foreground">
+              <Button 
+                size="icon" 
+                variant="ghost" 
+                className="hover:bg-primary hover:text-primary-foreground"
+                onClick={() => handleSocialClick("Facebook")}
+              >
                 <Facebook className="h-5 w-5" />
               </Button>
-              <Button size="icon" variant="ghost" className="hover:bg-primary hover:text-primary-foreground">
+              <Button 
+                size="icon" 
+                variant="ghost" 
+                className="hover:bg-primary hover:text-primary-foreground"
+                onClick={() => handleSocialClick("Twitter")}
+              >
                 <Twitter className="h-5 w-5" />
               </Button>
-              <Button size="icon" variant="ghost" className="hover:bg-primary hover:text-primary-foreground">
+              <Button 
+                size="icon" 
+                variant="ghost" 
+                className="hover:bg-primary hover:text-primary-foreground"
+                onClick={() => handleSocialClick("Instagram")}
+              >
                 <Instagram className="h-5 w-5" />
               </Button>
-              <Button size="icon" variant="ghost" className="hover:bg-primary hover:text-primary-foreground">
+              <Button 
+                size="icon" 
+                variant="ghost" 
+                className="hover:bg-primary hover:text-primary-foreground"
+                onClick={() => handleSocialClick("YouTube")}
+              >
                 <Youtube className="h-5 w-5" />
               </Button>
             </div>
@@ -33,11 +80,31 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-4">روابط سريعة</h4>
             <ul className="space-y-2 text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">من نحن</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">اتصل بنا</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">سياسة الإرجاع</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">الشروط والأحكام</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">سياسة الخصوصية</a></li>
+              <li>
+                <button onClick={() => handleLinkClick("من نحن")} className="hover:text-primary transition-colors">
+                  من نحن
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleLinkClick("اتصل بنا")} className="hover:text-primary transition-colors">
+                  اتصل بنا
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleLinkClick("سياسة الإرجاع")} className="hover:text-primary transition-colors">
+                  سياسة الإرجاع
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleLinkClick("الشروط والأحكام")} className="hover:text-primary transition-colors">
+                  الشروط والأحكام
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleLinkClick("سياسة الخصوصية")} className="hover:text-primary transition-colors">
+                  سياسة الخصوصية
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -45,11 +112,31 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-4">خدمة العملاء</h4>
             <ul className="space-y-2 text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">تتبع الطلب</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">الأسئلة الشائعة</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">الدعم الفني</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">طرق الدفع</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">التوصيل والشحن</a></li>
+              <li>
+                <button onClick={() => handleLinkClick("تتبع الطلب")} className="hover:text-primary transition-colors">
+                  تتبع الطلب
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleLinkClick("الأسئلة الشائعة")} className="hover:text-primary transition-colors">
+                  الأسئلة الشائعة
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleLinkClick("الدعم الفني")} className="hover:text-primary transition-colors">
+                  الدعم الفني
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleLinkClick("طرق الدفع")} className="hover:text-primary transition-colors">
+                  طرق الدفع
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleLinkClick("التوصيل والشحن")} className="hover:text-primary transition-colors">
+                  التوصيل والشحن
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -59,25 +146,28 @@ const Footer = () => {
             <p className="text-muted-foreground text-sm mb-4">
               احصل على أحدث العروض والتخفيضات
             </p>
-            <div className="flex gap-2">
+            <form onSubmit={handleSubscribe} className="flex gap-2">
               <Input 
                 placeholder="البريد الإلكتروني" 
                 className="bg-secondary border-border"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
               />
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
                 اشترك
               </Button>
-            </div>
+            </form>
             
             <div className="mt-6 space-y-2 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
+              <a href="tel:800-MICRO" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Phone className="h-4 w-4 text-primary" />
                 <span>800-MICRO</span>
-              </div>
-              <div className="flex items-center gap-2">
+              </a>
+              <a href="mailto:support@microless.ae" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Mail className="h-4 w-4 text-primary" />
                 <span>support@microless.ae</span>
-              </div>
+              </a>
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-primary" />
                 <span>دبي، الإمارات العربية المتحدة</span>
@@ -99,6 +189,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;

@@ -1,3 +1,6 @@
+import React, { forwardRef } from "react";
+import { toast } from "sonner";
+
 const brands = [
   { name: "NVIDIA", logo: "https://upload.wikimedia.org/wikipedia/sco/thumb/2/21/Nvidia_logo.svg/200px-Nvidia_logo.svg.png" },
   { name: "AMD", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/AMD_Logo.svg/200px-AMD_Logo.svg.png" },
@@ -7,20 +10,32 @@ const brands = [
   { name: "Apple", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/100px-Apple_logo_black.svg.png" },
 ];
 
-const FeaturedBrands = () => {
+const FeaturedBrands = forwardRef<HTMLElement>((_, ref) => {
+  const handleBrandClick = (brandName: string) => {
+    toast.info(`عرض منتجات ${brandName}`);
+  };
+
+  const handleViewAll = () => {
+    toast.info("عرض جميع العلامات التجارية");
+  };
+
   return (
-    <section className="py-8">
+    <section ref={ref} className="py-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">العلامات التجارية</h2>
-        <a href="#" className="text-primary hover:underline text-sm font-medium">
+        <button 
+          onClick={handleViewAll}
+          className="text-primary hover:underline text-sm font-medium"
+        >
           عرض الكل
-        </a>
+        </button>
       </div>
       
       <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
         {brands.map((brand, index) => (
-          <div
+          <button
             key={index}
+            onClick={() => handleBrandClick(brand.name)}
             className="group bg-card border border-border rounded-xl p-6 flex items-center justify-center hover:border-primary/50 transition-all duration-300 hover-scale cursor-pointer"
           >
             <img 
@@ -28,11 +43,13 @@ const FeaturedBrands = () => {
               alt={brand.name}
               className="h-10 object-contain brightness-0 invert opacity-70 group-hover:opacity-100 transition-opacity"
             />
-          </div>
+          </button>
         ))}
       </div>
     </section>
   );
-};
+});
+
+FeaturedBrands.displayName = "FeaturedBrands";
 
 export default FeaturedBrands;

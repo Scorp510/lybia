@@ -10,6 +10,8 @@ import {
   Menu
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const categories = [
   { icon: Menu, label: "جميع الفئات" },
@@ -24,6 +26,13 @@ const categories = [
 ];
 
 const CategoryNav = () => {
+  const [activeCategory, setActiveCategory] = useState(0);
+
+  const handleCategoryClick = (index: number, label: string) => {
+    setActiveCategory(index);
+    toast.info(`تم اختيار: ${label}`);
+  };
+
   return (
     <nav className="bg-nav py-3">
       <div className="container">
@@ -32,8 +41,9 @@ const CategoryNav = () => {
             <Button
               key={index}
               variant="ghost"
-              className={`flex items-center gap-2 text-nav-foreground hover:bg-nav-foreground/10 whitespace-nowrap font-semibold ${
-                index === 0 ? 'bg-nav-foreground/10' : ''
+              onClick={() => handleCategoryClick(index, category.label)}
+              className={`flex items-center gap-2 text-nav-foreground hover:bg-nav-foreground/10 whitespace-nowrap font-semibold transition-all ${
+                activeCategory === index ? 'bg-nav-foreground/10 text-nav-foreground' : ''
               }`}
             >
               <category.icon className="h-5 w-5" />

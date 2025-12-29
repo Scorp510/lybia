@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Truck, Clock, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const slides = [
   {
@@ -42,6 +43,10 @@ const HeroCarousel = () => {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
+  const handleShopNow = (slideTitle: string) => {
+    toast.success(`تسوق الآن - ${slideTitle}`);
+  };
+
   return (
     <div className="relative overflow-hidden rounded-xl bg-card border border-border">
       <div className="relative h-[300px] md:h-[400px]">
@@ -68,7 +73,10 @@ const HeroCarousel = () => {
                     <h2 className="text-4xl md:text-5xl font-bold mb-2">{slide.title}</h2>
                     <p className="text-2xl text-primary font-semibold mb-4">{slide.subtitle}</p>
                     <p className="text-muted-foreground text-lg mb-6">{slide.description}</p>
-                    <Button className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6">
+                    <Button 
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6"
+                      onClick={() => handleShopNow(slide.title)}
+                    >
                       تسوق الآن
                     </Button>
                   </div>

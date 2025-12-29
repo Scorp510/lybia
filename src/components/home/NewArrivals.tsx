@@ -1,5 +1,6 @@
 import { Sparkles } from "lucide-react";
 import ProductCard from "./ProductCard";
+import { toast } from "sonner";
 
 const products = [
   {
@@ -65,6 +66,10 @@ const products = [
 ];
 
 const NewArrivals = () => {
+  const handleViewAll = () => {
+    toast.info("عرض جميع المنتجات الجديدة");
+  };
+
   return (
     <section className="py-8">
       {/* Header */}
@@ -79,9 +84,12 @@ const NewArrivals = () => {
           </div>
         </div>
         
-        <a href="#" className="text-primary hover:underline text-sm font-medium">
+        <button 
+          onClick={handleViewAll}
+          className="text-primary hover:underline text-sm font-medium"
+        >
           عرض الكل
-        </a>
+        </button>
       </div>
 
       {/* Products Grid */}

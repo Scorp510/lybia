@@ -12,6 +12,7 @@ import {
   Wifi,
   Watch
 } from "lucide-react";
+import { toast } from "sonner";
 
 const categories = [
   { icon: Cpu, label: "معالجات", color: "from-blue-500/20 to-transparent" },
@@ -29,19 +30,31 @@ const categories = [
 ];
 
 const CategoryGrid = () => {
+  const handleCategoryClick = (label: string) => {
+    toast.info(`تصفح قسم: ${label}`);
+  };
+
+  const handleViewAll = () => {
+    toast.info("عرض جميع الأقسام");
+  };
+
   return (
     <section className="py-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">تسوق حسب الفئة</h2>
-        <a href="#" className="text-primary hover:underline text-sm font-medium">
+        <button 
+          onClick={handleViewAll}
+          className="text-primary hover:underline text-sm font-medium"
+        >
           عرض الكل
-        </a>
+        </button>
       </div>
       
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-4">
         {categories.map((category, index) => (
-          <div
+          <button
             key={index}
+            onClick={() => handleCategoryClick(category.label)}
             className="group cursor-pointer"
           >
             <div className={`aspect-square bg-gradient-to-br ${category.color} bg-card border border-border rounded-xl flex items-center justify-center hover:border-primary/50 transition-all duration-300 hover-scale`}>
@@ -50,7 +63,7 @@ const CategoryGrid = () => {
             <p className="text-center text-sm mt-2 font-medium group-hover:text-primary transition-colors">
               {category.label}
             </p>
-          </div>
+          </button>
         ))}
       </div>
     </section>
