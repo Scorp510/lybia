@@ -1,6 +1,8 @@
+import React, { forwardRef } from "react";
 import { Heart, ShoppingCart, Star, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useStore, Product } from "@/contexts/StoreContext";
 
 interface ProductCardProps {
   id: number;
@@ -15,7 +17,8 @@ interface ProductCardProps {
   fastDelivery?: boolean;
 }
 
-const ProductCard = ({
+const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({
+  id,
   name,
   image,
   price,
@@ -25,9 +28,50 @@ const ProductCard = ({
   discount,
   freeShipping,
   fastDelivery,
-}: ProductCardProps) => {
+}, ref) => {
+  const { 
+    addToCart, 
+    addToWishlist, 
+    removeFromWishlist, 
+    isInWishlist,
+    convertPrice,
+    currencySymbol
+  } = useStore();
+
+  const product: Product = {
+    id,
+    name,
+    image,
+    price,
+    originalPrice,
+    rating,
+    reviewCount,
+    discount,
+    freeShipping,
+    fastDelivery,
+  };
+
+  const inWishlist = isInWishlist(id);
+
+  const handleWishlistClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (inWishlist) {
+      removeFromWishlist(id);
+    } else {
+      addToWishlist(product);
+    }
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart(product);
+  };
+
   return (
-    <div className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover-scale card-shadow">
+    <div 
+      ref={ref}
+      className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover-scale card-shadow cursor-pointer"
+    >
       {/* Image Container */}
       <div className="relative aspect-square bg-secondary/50 p-4">
         {discount && (
@@ -39,9 +83,14 @@ const ProductCard = ({
         <Button
           variant="ghost"
           size="icon"
-          className="absolute top-3 left-3 bg-background/80 hover:bg-background text-muted-foreground hover:text-sale opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={handleWishlistClick}
+          className={`absolute top-3 left-3 bg-background/80 hover:bg-background transition-all ${
+            inWishlist 
+              ? "text-sale opacity-100" 
+              : "text-muted-foreground hover:text-sale opacity-0 group-hover:opacity-100"
+          }`}
         >
-          <Heart className="h-5 w-5" />
+          <Heart className={`h-5 w-5 ${inWishlist ? "fill-current" : ""}`} />
         </Button>
         
         <img 
@@ -94,11 +143,11 @@ const ProductCard = ({
         <div className="flex items-center justify-between">
           <div>
             <div className="text-xl font-bold text-primary">
-              {price.toLocaleString()} <span className="text-sm">د.إ</span>
+              {convertPrice(price).toLocaleString()} <span className="text-sm">{currencySymbol}</span>
             </div>
             {originalPrice && (
               <div className="text-sm text-muted-foreground line-through">
-                {originalPrice.toLocaleString()} د.إ
+                {convertPrice(originalPrice).toLocaleString()} {currencySymbol}
               </div>
             )}
           </div>
@@ -106,6 +155,7 @@ const ProductCard = ({
           <Button 
             size="icon" 
             className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10"
+            onClick={handleAddToCart}
           >
             <ShoppingCart className="h-5 w-5" />
           </Button>
@@ -113,6 +163,8 @@ const ProductCard = ({
       </div>
     </div>
   );
-};
+});
+
+ProductCard.displayName = "ProductCard";
 
 export default ProductCard;
