@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import { StoreProvider } from "@/contexts/StoreContext";
 import TopBar from "@/components/layout/TopBar";
 import Header from "@/components/layout/Header";
 import CategoryNav from "@/components/layout/CategoryNav";
@@ -15,7 +14,7 @@ import SearchDialog from "@/components/store/SearchDialog";
 
 const Index = () => {
   return (
-    <StoreProvider>
+    <>
       <Helmet>
         <title>مايكروليس - متجر الإلكترونيات الأول في الإمارات</title>
         <meta name="description" content="تسوق أحدث الإلكترونيات ومكونات الكمبيوتر بأفضل الأسعار. توصيل سريع في دبي وأبوظبي. ضمان أصلي 100%." />
@@ -41,7 +40,7 @@ const Index = () => {
       {/* Modals & Drawers */}
       <CartDrawer />
       <SearchDialog />
-    </StoreProvider>
+    </>
   );
 };
 
