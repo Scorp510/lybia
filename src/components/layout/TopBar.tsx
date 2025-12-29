@@ -1,11 +1,15 @@
-import { MapPin, Phone, Globe, ChevronDown, User } from "lucide-react";
+import { MapPin, Phone, ChevronDown, User } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LocationDialog from "@/components/store/LocationDialog";
+import ThemeToggle from "@/components/layout/ThemeToggle";
+import LanguageToggle from "@/components/layout/LanguageToggle";
 
 const TopBar = () => {
   const { currency, setCurrency, location } = useStore();
+  const { t } = useLanguage();
   const [locationDialogOpen, setLocationDialogOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -19,7 +23,7 @@ const TopBar = () => {
               className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
             >
               <MapPin className="h-4 w-4" />
-              <span>التوصيل إلى {location}</span>
+              <span>{t("deliveryTo")} {location}</span>
               <ChevronDown className="h-3 w-3" />
             </button>
             <a 
@@ -31,7 +35,7 @@ const TopBar = () => {
             </a>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <button 
                 onClick={() => setCurrency("AED")}
@@ -48,12 +52,19 @@ const TopBar = () => {
               </button>
             </div>
 
+            <div className="h-4 w-px bg-primary-foreground/30" />
+            
+            <LanguageToggle />
+            <ThemeToggle />
+
+            <div className="h-4 w-px bg-primary-foreground/30" />
+
             <button
               onClick={() => navigate("/auth")}
               className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer"
             >
               <User className="h-4 w-4" />
-              <span className="hidden sm:inline">تسجيل الدخول</span>
+              <span className="hidden sm:inline">{t("login")}</span>
             </button>
           </div>
         </div>
