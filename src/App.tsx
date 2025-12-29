@@ -7,6 +7,9 @@ import { HelmetProvider } from "react-helmet-async";
 import { StoreProvider } from "@/contexts/StoreContext";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import ProductPage from "./pages/ProductPage";
+import Checkout from "./pages/Checkout";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +25,9 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/product/:id" element={<ProductPage />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

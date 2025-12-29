@@ -1,10 +1,12 @@
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
+import { useNavigate } from "react-router-dom";
 
 const CartDrawer = () => {
+  const navigate = useNavigate();
   const { 
     cart, 
     isCartOpen, 
@@ -17,9 +19,14 @@ const CartDrawer = () => {
     currencySymbol
   } = useStore();
 
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    navigate("/checkout");
+  };
+
   return (
     <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
-      <SheetContent side="left" className="w-full sm:max-w-lg bg-background border-border">
+      <SheetContent side="left" className="w-full sm:max-w-lg bg-card border-border">
         <SheetHeader>
           <SheetTitle className="text-right flex items-center gap-2">
             <ShoppingBag className="h-5 w-5 text-primary" />
@@ -33,7 +40,7 @@ const CartDrawer = () => {
             <p className="text-lg">السلة فارغة</p>
             <p className="text-sm">ابدأ التسوق الآن!</p>
             <Button 
-              className="mt-4 bg-primary text-primary-foreground"
+              className="mt-4 btn-gradient"
               onClick={() => setIsCartOpen(false)}
             >
               تسوق الآن
@@ -46,12 +53,16 @@ const CartDrawer = () => {
                 {cart.map((item) => (
                   <div 
                     key={item.id} 
-                    className="flex gap-4 p-3 bg-card border border-border rounded-lg"
+                    className="flex gap-4 p-3 bg-secondary/50 rounded-xl"
                   >
                     <img 
                       src={item.image} 
                       alt={item.name}
-                      className="w-20 h-20 object-cover rounded-md bg-secondary"
+                      className="w-20 h-20 object-cover rounded-lg bg-secondary cursor-pointer"
+                      onClick={() => {
+                        setIsCartOpen(false);
+                        navigate(`/product/${item.id}`);
+                      }}
                     />
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-sm line-clamp-2">{item.name}</h4>
@@ -64,7 +75,7 @@ const CartDrawer = () => {
                           <Button
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8"
+                            className="h-8 w-8 rounded-lg"
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           >
                             <Minus className="h-4 w-4" />
@@ -73,7 +84,7 @@ const CartDrawer = () => {
                           <Button
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8"
+                            className="h-8 w-8 rounded-lg"
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           >
                             <Plus className="h-4 w-4" />
@@ -107,11 +118,14 @@ const CartDrawer = () => {
                 <Button
                   variant="outline"
                   onClick={clearCart}
-                  className="border-sale text-sale hover:bg-sale/10"
+                  className="border-sale text-sale hover:bg-sale/10 rounded-xl"
                 >
                   تفريغ السلة
                 </Button>
-                <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                <Button 
+                  className="btn-gradient rounded-xl"
+                  onClick={handleCheckout}
+                >
                   إتمام الشراء
                 </Button>
               </div>

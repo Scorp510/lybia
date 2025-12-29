@@ -70,7 +70,7 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({
   return (
     <div 
       ref={ref}
-      className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover-scale card-shadow cursor-pointer"
+      className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover-lift card-shadow cursor-pointer"
     >
       {/* Image Container */}
       <div className="relative aspect-square bg-secondary/50 p-4">
