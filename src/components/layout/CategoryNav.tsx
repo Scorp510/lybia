@@ -34,7 +34,7 @@ const CategoryNav = () => {
   };
 
   return (
-    <nav className="bg-nav py-3">
+    <nav className="gradient-primary py-3 shadow-md">
       <div className="container">
         <div className="flex items-center justify-between gap-2 overflow-x-auto scrollbar-hide">
           {categories.map((category, index) => (
@@ -42,8 +42,8 @@ const CategoryNav = () => {
               key={index}
               variant="ghost"
               onClick={() => handleCategoryClick(index, category.label)}
-              className={`flex items-center gap-2 text-nav-foreground hover:bg-nav-foreground/10 whitespace-nowrap font-semibold transition-all ${
-                activeCategory === index ? 'bg-nav-foreground/10 text-nav-foreground' : ''
+              className={`flex items-center gap-2 text-primary-foreground hover:bg-primary-foreground/20 whitespace-nowrap font-semibold transition-all ${
+                activeCategory === index ? 'bg-primary-foreground/20' : ''
               }`}
             >
               <category.icon className="h-5 w-5" />
