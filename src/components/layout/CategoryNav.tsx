@@ -12,37 +12,37 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCategory } from "@/contexts/StoreContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface CategoryItem {
   icon: typeof Menu;
-  label: string;
-  slug: string | null;
+  labelKey: string;
+  slug: string;
 }
 
 const categories: CategoryItem[] = [
-  { icon: Menu, label: "جميع الفئات", slug: "all" },
-  { icon: Monitor, label: "مكونات الكمبيوتر", slug: "components" },
-  { icon: Laptop, label: "لابتوبات", slug: "laptops" },
-  { icon: Gamepad2, label: "ألعاب", slug: "gaming" },
-  { icon: Smartphone, label: "هواتف", slug: "phones" },
-  { icon: Headphones, label: "صوتيات", slug: "audio" },
-  { icon: Tv, label: "تلفزيونات", slug: "tvs" },
-  { icon: Camera, label: "كاميرات", slug: "cameras" },
-  { icon: Printer, label: "طابعات", slug: "printers" },
+  { icon: Menu, labelKey: "all", slug: "all" },
+  { icon: Monitor, labelKey: "components", slug: "components" },
+  { icon: Laptop, labelKey: "laptops", slug: "laptops" },
+  { icon: Gamepad2, labelKey: "gaming", slug: "gaming" },
+  { icon: Smartphone, labelKey: "phones", slug: "phones" },
+  { icon: Headphones, labelKey: "audio", slug: "audio" },
+  { icon: Tv, labelKey: "tvs", slug: "tvs" },
+  { icon: Camera, labelKey: "cameras", slug: "cameras" },
+  { icon: Printer, labelKey: "printers", slug: "printers" },
 ];
 
 const CategoryNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
   
   const currentCategory = location.pathname.startsWith("/category/") 
     ? location.pathname.split("/category/")[1] 
     : null;
 
-  const handleCategoryClick = (slug: string | null) => {
-    if (slug) {
-      navigate(`/category/${slug}`);
-    }
+  const handleCategoryClick = (slug: string) => {
+    navigate(`/category/${slug}`);
   };
 
   return (
@@ -59,7 +59,7 @@ const CategoryNav = () => {
               }`}
             >
               <category.icon className="h-5 w-5" />
-              <span>{category.label}</span>
+              <span>{t(category.labelKey)}</span>
             </Button>
           ))}
         </div>
