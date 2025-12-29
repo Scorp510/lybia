@@ -8,9 +8,10 @@ import CartDrawer from "@/components/store/CartDrawer";
 import SearchDialog from "@/components/store/SearchDialog";
 import ProductCard from "@/components/home/ProductCard";
 import { Button } from "@/components/ui/button";
-import { allProducts, categoryLabels, getProductsByCategory } from "@/data/products";
+import { allProducts, getProductsByCategory } from "@/data/products";
 import { ProductCategory } from "@/contexts/StoreContext";
-import { ArrowRight, Grid3X3, List, SlidersHorizontal } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { ArrowRight, ArrowLeft, Grid3X3, List, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import {
   Select,
@@ -23,6 +24,7 @@ import {
 const CategoryPage = () => {
   const { category } = useParams<{ category: string }>();
   const navigate = useNavigate();
+  const { t, language } = useLanguage();
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
@@ -33,8 +35,8 @@ const CategoryPage = () => {
     : getProductsByCategory(category as ProductCategory);
 
   const categoryLabel = isAllCategories 
-    ? "جميع المنتجات" 
-    : categoryLabels[category as ProductCategory] || "المنتجات";
+    ? (language === "ar" ? "جميع المنتجات" : "All Products")
+    : t(category as string);
 
   // Sort products
   const sortedProducts = [...products].sort((a, b) => {
@@ -52,11 +54,16 @@ const CategoryPage = () => {
     }
   });
 
+  const ArrowIcon = language === "ar" ? ArrowRight : ArrowLeft;
+
   return (
     <>
       <Helmet>
-        <title>{categoryLabel} - مايكروليس</title>
-        <meta name="description" content={`تسوق ${categoryLabel} بأفضل الأسعار في الإمارات. توصيل سريع وضمان أصلي.`} />
+        <title>{categoryLabel} - {language === "ar" ? "مايكروليس" : "Microless"}</title>
+        <meta name="description" content={language === "ar" 
+          ? `تسوق ${categoryLabel} بأفضل الأسعار في الإمارات. توصيل سريع وضمان أصلي.`
+          : `Shop ${categoryLabel} at the best prices in UAE. Fast delivery and genuine warranty.`
+        } />
       </Helmet>
       
       <div className="min-h-screen bg-background">
@@ -71,9 +78,9 @@ const CategoryPage = () => {
               onClick={() => navigate("/")}
               className="hover:text-primary transition-colors"
             >
-              الرئيسية
+              {language === "ar" ? "الرئيسية" : "Home"}
             </button>
-            <ArrowRight className="h-4 w-4 rotate-180" />
+            <ArrowIcon className="h-4 w-4" />
             <span className="text-foreground font-medium">{categoryLabel}</span>
           </div>
 
@@ -82,7 +89,7 @@ const CategoryPage = () => {
             <div>
               <h1 className="text-3xl font-bold text-foreground">{categoryLabel}</h1>
               <p className="text-muted-foreground mt-1">
-                {sortedProducts.length} منتج
+                {sortedProducts.length} {language === "ar" ? "منتج" : "products"}
               </p>
             </div>
 
@@ -90,19 +97,19 @@ const CategoryPage = () => {
             <div className="flex items-center gap-3">
               <Button variant="outline" size="sm" className="gap-2">
                 <SlidersHorizontal className="h-4 w-4" />
-                فلتر
+                {language === "ar" ? "فلتر" : "Filter"}
               </Button>
 
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-[160px]">
-                  <SelectValue placeholder="ترتيب حسب" />
+                  <SelectValue placeholder={language === "ar" ? "ترتيب حسب" : "Sort by"} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="popular">الأكثر شعبية</SelectItem>
-                  <SelectItem value="newest">الأحدث</SelectItem>
-                  <SelectItem value="price-low">السعر: من الأقل</SelectItem>
-                  <SelectItem value="price-high">السعر: من الأعلى</SelectItem>
-                  <SelectItem value="rating">التقييم</SelectItem>
+                  <SelectItem value="popular">{language === "ar" ? "الأكثر شعبية" : "Most Popular"}</SelectItem>
+                  <SelectItem value="newest">{language === "ar" ? "الأحدث" : "Newest"}</SelectItem>
+                  <SelectItem value="price-low">{language === "ar" ? "السعر: من الأقل" : "Price: Low to High"}</SelectItem>
+                  <SelectItem value="price-high">{language === "ar" ? "السعر: من الأعلى" : "Price: High to Low"}</SelectItem>
+                  <SelectItem value="rating">{language === "ar" ? "التقييم" : "Rating"}</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -140,12 +147,14 @@ const CategoryPage = () => {
             </div>
           ) : (
             <div className="text-center py-16">
-              <p className="text-xl text-muted-foreground">لا توجد منتجات في هذه الفئة</p>
+              <p className="text-xl text-muted-foreground">
+                {language === "ar" ? "لا توجد منتجات في هذه الفئة" : "No products in this category"}
+              </p>
               <Button 
                 className="mt-4"
                 onClick={() => navigate("/category/all")}
               >
-                عرض جميع المنتجات
+                {language === "ar" ? "عرض جميع المنتجات" : "View All Products"}
               </Button>
             </div>
           )}

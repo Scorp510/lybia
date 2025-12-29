@@ -2,8 +2,12 @@ import { Search, ShoppingCart, Heart, User, Menu } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/contexts/StoreContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const { t, language } = useLanguage();
   const { 
     cartCount, 
     wishlist, 
@@ -33,8 +37,11 @@ const Header = () => {
         <div className="flex items-center gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="text-primary font-bold text-3xl tracking-tight cursor-pointer hover:opacity-80 transition-opacity">
-              مايكروليس
+            <div 
+              onClick={() => navigate("/")}
+              className="text-primary font-bold text-3xl tracking-tight cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              {language === "ar" ? "مايكروليس" : "Microless"}
             </div>
           </div>
 
@@ -43,8 +50,8 @@ const Header = () => {
             <div className="relative">
               <Input
                 type="text"
-                placeholder="ابحث عن المنتجات، الماركات والمزيد..."
-                className="w-full bg-secondary border-border text-foreground placeholder:text-muted-foreground pr-12 h-12 rounded-lg cursor-pointer"
+                placeholder={t("searchPlaceholder")}
+                className="w-full bg-secondary border-border text-foreground placeholder:text-muted-foreground px-12 h-12 rounded-lg cursor-pointer"
                 value={searchQuery}
                 onChange={handleSearchInputChange}
                 onKeyDown={handleSearchKeyDown}
@@ -53,7 +60,7 @@ const Header = () => {
               />
               <Button 
                 size="icon" 
-                className="absolute left-1 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-primary-foreground h-10 w-10 rounded-md"
+                className={`absolute top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-primary-foreground h-10 w-10 rounded-md ${language === "ar" ? "left-1" : "right-1"}`}
                 onClick={handleSearchClick}
               >
                 <Search className="h-5 w-5" />
@@ -67,7 +74,7 @@ const Header = () => {
               variant="ghost" 
               size="icon" 
               className="text-foreground hover:text-primary relative"
-              onClick={() => setIsCartOpen(true)}
+              onClick={() => navigate("/profile")}
             >
               <Heart className="h-6 w-6" />
               {wishlist.length > 0 && (
@@ -91,9 +98,13 @@ const Header = () => {
               )}
             </Button>
             
-            <Button variant="ghost" className="text-foreground hover:text-primary flex items-center gap-2">
+            <Button 
+              variant="ghost" 
+              className="text-foreground hover:text-primary flex items-center gap-2"
+              onClick={() => navigate("/profile")}
+            >
               <User className="h-6 w-6" />
-              <span className="hidden md:inline">حسابي</span>
+              <span className="hidden md:inline">{t("profile")}</span>
             </Button>
           </div>
         </div>

@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useStore } from "@/contexts/StoreContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useNavigate } from "react-router-dom";
 
 const CartDrawer = () => {
   const navigate = useNavigate();
+  const { t, language } = useLanguage();
   const { 
     cart, 
     isCartOpen, 
@@ -26,30 +28,30 @@ const CartDrawer = () => {
 
   return (
     <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
-      <SheetContent side="left" className="w-full sm:max-w-lg bg-card border-border">
+      <SheetContent side={language === "ar" ? "left" : "right"} className="w-full sm:max-w-lg bg-card border-border">
         <SheetHeader>
-          <SheetTitle className="text-right flex items-center gap-2">
+          <SheetTitle className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5 text-primary" />
-            سلة التسوق ({cart.length} منتجات)
+            {t("cart")} ({cart.length})
           </SheetTitle>
         </SheetHeader>
 
         {cart.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-[60vh] text-muted-foreground">
             <ShoppingBag className="h-16 w-16 mb-4 opacity-50" />
-            <p className="text-lg">السلة فارغة</p>
-            <p className="text-sm">ابدأ التسوق الآن!</p>
+            <p className="text-lg">{t("emptyCart")}</p>
+            <p className="text-sm">{t("addItems")}</p>
             <Button 
               className="mt-4 btn-gradient"
               onClick={() => setIsCartOpen(false)}
             >
-              تسوق الآن
+              {t("continueShopping")}
             </Button>
           </div>
         ) : (
           <>
             <ScrollArea className="h-[calc(100vh-280px)] mt-4">
-              <div className="space-y-4 pr-4">
+              <div className="space-y-4 px-1">
                 {cart.map((item) => (
                   <div 
                     key={item.id} 
@@ -108,7 +110,7 @@ const CartDrawer = () => {
 
             <div className="mt-6 space-y-4">
               <div className="flex items-center justify-between text-lg font-bold">
-                <span>المجموع:</span>
+                <span>{t("total")}:</span>
                 <span className="text-primary">
                   {convertPrice(cartTotal).toLocaleString()} {currencySymbol}
                 </span>
@@ -120,13 +122,13 @@ const CartDrawer = () => {
                   onClick={clearCart}
                   className="border-sale text-sale hover:bg-sale/10 rounded-xl"
                 >
-                  تفريغ السلة
+                  {language === "ar" ? "تفريغ السلة" : "Clear Cart"}
                 </Button>
                 <Button 
                   className="btn-gradient rounded-xl"
                   onClick={handleCheckout}
                 >
-                  إتمام الشراء
+                  {t("checkout")}
                 </Button>
               </div>
             </div>
