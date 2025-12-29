@@ -1,4 +1,16 @@
-import { Product } from "@/contexts/StoreContext";
+import { Product, ProductCategory } from "@/contexts/StoreContext";
+
+// Category labels mapping
+export const categoryLabels: Record<ProductCategory, string> = {
+  components: "مكونات الكمبيوتر",
+  laptops: "لابتوبات",
+  gaming: "ألعاب",
+  phones: "هواتف",
+  audio: "صوتيات",
+  tvs: "تلفزيونات",
+  cameras: "كاميرات",
+  printers: "طابعات",
+};
 
 // Centralized products database
 export const allProducts: Product[] = [
@@ -13,6 +25,7 @@ export const allProducts: Product[] = [
     discount: 16,
     freeShipping: true,
     fastDelivery: true,
+    category: "components",
   },
   {
     id: 2,
@@ -25,6 +38,7 @@ export const allProducts: Product[] = [
     discount: 14,
     freeShipping: true,
     fastDelivery: false,
+    category: "components",
   },
   {
     id: 3,
@@ -37,6 +51,7 @@ export const allProducts: Product[] = [
     discount: 12,
     freeShipping: false,
     fastDelivery: true,
+    category: "components",
   },
   {
     id: 4,
@@ -49,6 +64,7 @@ export const allProducts: Product[] = [
     discount: 20,
     freeShipping: true,
     fastDelivery: true,
+    category: "components",
   },
   {
     id: 5,
@@ -61,6 +77,7 @@ export const allProducts: Product[] = [
     discount: 18,
     freeShipping: true,
     fastDelivery: false,
+    category: "components",
   },
   {
     id: 6,
@@ -73,6 +90,7 @@ export const allProducts: Product[] = [
     discount: 19,
     freeShipping: false,
     fastDelivery: true,
+    category: "components",
   },
   {
     id: 7,
@@ -84,6 +102,7 @@ export const allProducts: Product[] = [
     reviewCount: 89,
     freeShipping: true,
     fastDelivery: true,
+    category: "laptops",
   },
   {
     id: 8,
@@ -96,6 +115,7 @@ export const allProducts: Product[] = [
     discount: 20,
     freeShipping: true,
     fastDelivery: false,
+    category: "audio",
   },
   {
     id: 9,
@@ -108,6 +128,7 @@ export const allProducts: Product[] = [
     discount: 20,
     freeShipping: true,
     fastDelivery: true,
+    category: "gaming",
   },
   {
     id: 10,
@@ -120,6 +141,7 @@ export const allProducts: Product[] = [
     discount: 18,
     freeShipping: true,
     fastDelivery: true,
+    category: "gaming",
   },
   {
     id: 11,
@@ -132,6 +154,7 @@ export const allProducts: Product[] = [
     discount: 19,
     freeShipping: true,
     fastDelivery: false,
+    category: "gaming",
   },
   {
     id: 12,
@@ -144,6 +167,111 @@ export const allProducts: Product[] = [
     discount: 15,
     freeShipping: true,
     fastDelivery: true,
+    category: "gaming",
+  },
+  {
+    id: 13,
+    name: "آيفون 15 برو ماكس 256GB",
+    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&h=800&fit=crop",
+    price: 5499,
+    originalPrice: 5999,
+    rating: 4.9,
+    reviewCount: 892,
+    discount: 8,
+    freeShipping: true,
+    fastDelivery: true,
+    category: "phones",
+  },
+  {
+    id: 14,
+    name: "سامسونج جالاكسي S24 Ultra",
+    image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&h=800&fit=crop",
+    price: 4999,
+    originalPrice: 5499,
+    rating: 4.8,
+    reviewCount: 654,
+    discount: 9,
+    freeShipping: true,
+    fastDelivery: true,
+    category: "phones",
+  },
+  {
+    id: 15,
+    name: "تلفزيون سامسونج QLED 65 بوصة 4K",
+    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&h=800&fit=crop",
+    price: 4299,
+    originalPrice: 4999,
+    rating: 4.7,
+    reviewCount: 234,
+    discount: 14,
+    freeShipping: true,
+    fastDelivery: false,
+    category: "tvs",
+  },
+  {
+    id: 16,
+    name: "كاميرا Sony Alpha A7 IV",
+    image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&h=800&fit=crop",
+    price: 9999,
+    originalPrice: 11499,
+    rating: 4.9,
+    reviewCount: 178,
+    discount: 13,
+    freeShipping: true,
+    fastDelivery: true,
+    category: "cameras",
+  },
+  {
+    id: 17,
+    name: "طابعة HP LaserJet Pro MFP",
+    image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&h=800&fit=crop",
+    price: 1299,
+    originalPrice: 1499,
+    rating: 4.4,
+    reviewCount: 89,
+    discount: 13,
+    freeShipping: false,
+    fastDelivery: true,
+    category: "printers",
+  },
+  {
+    id: 18,
+    name: "لابتوب MacBook Pro 16 M3 Pro",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=800&fit=crop",
+    price: 12999,
+    originalPrice: 14499,
+    rating: 4.9,
+    reviewCount: 456,
+    discount: 10,
+    freeShipping: true,
+    fastDelivery: true,
+    category: "laptops",
+  },
+  {
+    id: 19,
+    name: "سماعات AirPods Pro 2",
+    image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=800&h=800&fit=crop",
+    price: 999,
+    originalPrice: 1149,
+    rating: 4.8,
+    reviewCount: 1234,
+    discount: 13,
+    freeShipping: true,
+    fastDelivery: true,
+    category: "audio",
+  },
+  {
+    id: 20,
+    name: "سماعات Sony WH-1000XM5",
+    image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&h=800&fit=crop",
+    price: 1499,
+    originalPrice: 1799,
+    rating: 4.9,
+    reviewCount: 567,
+    discount: 17,
+    freeShipping: true,
+    fastDelivery: false,
+    category: "audio",
   },
 ];
 
@@ -152,5 +280,18 @@ export const getProductById = (id: number): Product | undefined => {
 };
 
 export const getRelatedProducts = (id: number, limit: number = 4): Product[] => {
+  const product = getProductById(id);
+  if (product?.category) {
+    const sameCategory = allProducts.filter(p => p.id !== id && p.category === product.category);
+    if (sameCategory.length >= limit) {
+      return sameCategory.slice(0, limit);
+    }
+    const others = allProducts.filter(p => p.id !== id && p.category !== product.category);
+    return [...sameCategory, ...others].slice(0, limit);
+  }
   return allProducts.filter(p => p.id !== id).slice(0, limit);
+};
+
+export const getProductsByCategory = (category: ProductCategory): Product[] => {
+  return allProducts.filter(p => p.category === category);
 };
