@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart, Star, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +30,7 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({
   freeShipping,
   fastDelivery,
 }, ref) => {
+  const navigate = useNavigate();
   const { 
     addToCart, 
     addToWishlist, 
@@ -67,9 +69,14 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({
     addToCart(product);
   };
 
+  const handleCardClick = () => {
+    navigate(`/product/${id}`);
+  };
+
   return (
     <div 
       ref={ref}
+      onClick={handleCardClick}
       className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover-lift card-shadow cursor-pointer"
     >
       {/* Image Container */}

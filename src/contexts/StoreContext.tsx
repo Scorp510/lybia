@@ -1,6 +1,16 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { toast } from "sonner";
 
+export type ProductCategory = 
+  | "components" 
+  | "laptops" 
+  | "gaming" 
+  | "phones" 
+  | "audio" 
+  | "tvs" 
+  | "cameras" 
+  | "printers";
+
 export interface Product {
   id: number;
   name: string;
@@ -12,6 +22,7 @@ export interface Product {
   discount?: number;
   freeShipping?: boolean;
   fastDelivery?: boolean;
+  category?: ProductCategory;
 }
 
 export interface CartItem extends Product {
