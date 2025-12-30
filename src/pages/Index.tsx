@@ -11,13 +11,16 @@ import NewArrivals from "@/components/home/NewArrivals";
 import FeaturedBrands from "@/components/home/FeaturedBrands";
 import CartDrawer from "@/components/store/CartDrawer";
 import SearchDialog from "@/components/store/SearchDialog";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
+  const { t } = useLanguage();
+
   return (
     <>
       <Helmet>
-        <title>مايكروليس - متجر الإلكترونيات الأول في الإمارات</title>
-        <meta name="description" content="تسوق أحدث الإلكترونيات ومكونات الكمبيوتر بأفضل الأسعار. توصيل سريع في دبي وأبوظبي. ضمان أصلي 100%." />
+        <title>{t("appTitle")}</title>
+        <meta name="description" content={t("appDescription")} />
       </Helmet>
       
       <div className="min-h-screen bg-background">
