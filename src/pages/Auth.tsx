@@ -136,9 +136,16 @@ const Auth = () => {
         <meta name="description" content="سجل دخولك أو أنشئ حسابًا جديدًا للتسوق من أفضل متجر إلكترونيات في الإمارات" />
       </Helmet>
 
-      <div className="min-h-screen bg-background flex">
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-primary/15 to-transparent rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-gradient-to-r from-primary/10 to-transparent rounded-full blur-2xl" />
+        </div>
+        
         {/* Left Side - Form */}
-        <div className="flex-1 flex items-center justify-center p-8">
+        <div className="flex-1 flex items-center justify-center p-8 relative z-10">
           <div className="w-full max-w-md">
             {/* Back Button */}
             <Button
@@ -276,7 +283,11 @@ const Auth = () => {
         </div>
 
         {/* Right Side - Features */}
-        <div className="hidden lg:flex flex-1 gradient-primary items-center justify-center p-12">
+        <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary via-primary/90 to-primary/80 items-center justify-center p-12 relative overflow-hidden">
+          {/* Decorative circles */}
+          <div className="absolute top-20 right-20 w-40 h-40 border border-primary-foreground/20 rounded-full" />
+          <div className="absolute bottom-32 left-16 w-24 h-24 border border-primary-foreground/10 rounded-full" />
+          <div className="absolute top-1/3 right-1/3 w-16 h-16 bg-primary-foreground/10 rounded-full blur-xl" />
           <div className="max-w-md text-primary-foreground">
             <h2 className="text-4xl font-bold mb-6">
               تسوق بذكاء مع مايكروليس
