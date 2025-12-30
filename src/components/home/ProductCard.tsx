@@ -87,34 +87,34 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({
       <div 
         ref={ref}
         onClick={handleCardClick}
-        className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover-lift card-shadow cursor-pointer"
+        className="group bg-card border border-border rounded-2xl overflow-hidden transition-all duration-500 ease-out hover:border-primary/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10 card-shadow cursor-pointer"
       >
         {/* Image Container */}
-        <div className="relative aspect-square bg-secondary/50 p-4">
+        <div className="relative aspect-square bg-secondary/50 p-4 overflow-hidden">
           {discount && (
-            <Badge className="absolute top-3 right-3 bg-sale text-sale-foreground font-bold text-sm px-2 py-1">
+            <Badge className="absolute top-3 right-3 bg-sale text-sale-foreground font-bold text-sm px-2 py-1 animate-pulse-scale z-10">
               -{discount}%
             </Badge>
           )}
           
-          <div className="absolute top-3 left-3 flex flex-col gap-2">
+          <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
             <Button
               variant="ghost"
               size="icon"
               onClick={handleWishlistClick}
-              className={`bg-background/80 hover:bg-background transition-all ${
+              className={`bg-background/90 backdrop-blur-sm hover:bg-background transition-all duration-300 ${
                 inWishlist 
-                  ? "text-sale opacity-100" 
-                  : "text-muted-foreground hover:text-sale opacity-0 group-hover:opacity-100"
+                  ? "text-sale opacity-100 scale-100" 
+                  : "text-muted-foreground hover:text-sale opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100"
               }`}
             >
-              <Heart className={`h-5 w-5 ${inWishlist ? "fill-current" : ""}`} />
+              <Heart className={`h-5 w-5 transition-transform duration-300 ${inWishlist ? "fill-current animate-heartbeat" : "group-hover:scale-110"}`} />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               onClick={handleQuickView}
-              className="bg-background/80 hover:bg-background text-muted-foreground hover:text-primary opacity-0 group-hover:opacity-100 transition-all"
+              className="bg-background/90 backdrop-blur-sm hover:bg-background text-muted-foreground hover:text-primary opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 delay-75"
             >
               <Eye className="h-5 w-5" />
             </Button>
@@ -123,7 +123,7 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({
           <img 
             src={image} 
             alt={name}
-            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-110"
           />
         </div>
 
@@ -145,7 +145,7 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({
           </div>
 
           {/* Title */}
-          <h3 className="font-semibold text-sm line-clamp-2 min-h-[2.5rem] group-hover:text-primary transition-colors">
+          <h3 className="font-semibold text-sm line-clamp-2 min-h-[2.5rem] transition-colors duration-300 group-hover:text-primary">
             {name}
           </h3>
 
@@ -181,10 +181,10 @@ const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({
             
             <Button 
               size="icon" 
-              className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary/30"
               onClick={handleAddToCart}
             >
-              <ShoppingCart className="h-5 w-5" />
+              <ShoppingCart className="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" />
             </Button>
           </div>
         </div>

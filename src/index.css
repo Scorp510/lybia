@@ -142,23 +142,54 @@
   .gradient-gold {
     background: linear-gradient(135deg, hsl(43 96% 56%) 0%, hsl(25 95% 53%) 100%);
   }
+
+  .gradient-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)) 0%,
+      hsl(262 83% 60%) 50%,
+      hsl(var(--primary)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+  }
   
+  /* Hover Effects */
   .hover-scale {
-    @apply transition-all duration-300 hover:scale-105;
+    @apply transition-transform duration-300 ease-out hover:scale-105;
   }
 
   .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+    @apply transition-all duration-400 ease-out hover:-translate-y-2 hover:shadow-xl;
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.4);
   }
   
+  /* Card Effects */
   .card-shadow {
     box-shadow: 0 4px 20px hsl(224 71% 10% / 0.06);
   }
 
   .card-shadow-hover {
-    box-shadow: 0 12px 40px hsl(224 71% 10% / 0.12);
+    box-shadow: 0 16px 48px hsl(224 71% 10% / 0.15);
+  }
+
+  .card-interactive {
+    @apply transition-all duration-500 ease-out;
+  }
+
+  .card-interactive:hover {
+    @apply -translate-y-2;
+    box-shadow: 0 20px 50px hsl(var(--primary) / 0.15);
   }
   
+  /* Glow Effects */
   .glow-primary {
     box-shadow: 0 0 30px hsl(220 90% 56% / 0.35);
   }
@@ -167,12 +198,22 @@
     box-shadow: 0 0 30px hsl(43 96% 56% / 0.4);
   }
 
+  .glow-sale {
+    box-shadow: 0 0 20px hsl(354 100% 55% / 0.4);
+  }
+
+  /* Button Styles */
   .btn-gradient {
-    @apply gradient-primary text-white transition-all duration-300;
+    @apply gradient-primary text-white transition-all duration-300 ease-out;
   }
 
   .btn-gradient:hover {
-    @apply gradient-hover shadow-lg;
+    @apply gradient-hover shadow-xl brightness-110;
+    transform: translateY(-2px);
+  }
+
+  .btn-gradient:active {
+    transform: translateY(0);
   }
 
   .btn-gradient-accent {
@@ -180,6 +221,47 @@
   }
 
   .btn-gradient-accent:hover {
-    @apply shadow-lg brightness-110;
+    @apply shadow-xl brightness-110;
+    transform: translateY(-2px);
+  }
+
+  /* Link Effects */
+  .link-underline {
+    @apply relative;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300;
+  }
+
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  /* Stagger Animation Delays */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+
+  /* Icon Animations */
+  .icon-bounce:hover svg {
+    animation: bounce-in 0.4s ease-out;
+  }
+
+  .icon-spin:hover svg {
+    animation: spin 0.5s ease-in-out;
+  }
+
+  /* Smooth Scrollbar */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
