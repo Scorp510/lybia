@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Loader2, CheckCircle, Smartphone, Laptop, Headphones, Watch, MailCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,11 @@ const emailSchema = z.string().email("البريد الإلكتروني غير �
 const passwordSchema = z.string().min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل");
 const nameSchema = z.string().min(2, "الاسم يجب أن يكون حرفين على الأقل");
 
-type AuthView = "login" | "signup" | "forgot-password" | "check-email" | "verification-sent";
+type AuthView = "login" | "signup" | "forgot-password" | "reset-password" | "check-email" | "verification-sent";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [authView, setAuthView] = useState<AuthView>("login");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +35,17 @@ const Auth = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const hashParams = new URLSearchParams(location.hash.replace(/^#/, ""));
+    const isRecovery =
+      searchParams.get("type") === "recovery" || hashParams.get("type") === "recovery";
+
+    if (isRecovery) {
+      setAuthView("reset-password");
+    }
+  }, [location.hash, location.search]);
 
   const validateField = (field: string, value: string) => {
     try {
@@ -63,7 +75,7 @@ const Auth = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (authView === "forgot-password") {
       const isEmailValid = validateField("email", formData.email);
       if (!isEmailValid) return;
@@ -87,7 +99,40 @@ const Auth = () => {
       }
       return;
     }
-    
+
+    if (authView === "reset-password") {
+      const isPasswordValid = validateField("password", formData.password);
+      if (!isPasswordValid) return;
+
+      setIsLoading(true);
+      try {
+        const { error } = await supabase.auth.updateUser({
+          password: formData.password,
+        });
+
+        if (error) {
+          if (
+            error.message.toLowerCase().includes("expired") ||
+            error.message.toLowerCase().includes("missing")
+          ) {
+            toast.error("رابط إعادة التعيين غير صالح أو منتهي");
+            setAuthView("forgot-password");
+          } else {
+            toast.error(error.message);
+          }
+          return;
+        }
+
+        toast.success("تم تغيير كلمة المرور بنجاح!");
+        navigate("/");
+      } catch (error) {
+        toast.error("حدث خطأ غير متوقع");
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
     const isEmailValid = validateField("email", formData.email);
     const isPasswordValid = validateField("password", formData.password);
     const isNameValid = authView === "login" || validateField("name", formData.name);
@@ -189,23 +234,39 @@ const Auth = () => {
 
   const getTitle = () => {
     switch (authView) {
-      case "login": return "تسجيل الدخول";
-      case "signup": return "إنشاء حساب";
-      case "forgot-password": return "استعادة كلمة المرور";
-      case "check-email": return "تحقق من بريدك";
-      case "verification-sent": return "تأكيد البريد الإلكتروني";
-      default: return "تسجيل الدخول";
+      case "login":
+        return "تسجيل الدخول";
+      case "signup":
+        return "إنشاء حساب";
+      case "forgot-password":
+        return "استعادة كلمة المرور";
+      case "reset-password":
+        return "تغيير كلمة المرور";
+      case "check-email":
+        return "تحقق من بريدك";
+      case "verification-sent":
+        return "تأكيد البريد الإلكتروني";
+      default:
+        return "تسجيل الدخول";
     }
   };
 
   const getSubtitle = () => {
     switch (authView) {
-      case "login": return "مرحبًا بعودتك!";
-      case "signup": return "انضم إلينا اليوم";
-      case "forgot-password": return "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور";
-      case "check-email": return "تم إرسال رابط إعادة التعيين";
-      case "verification-sent": return "تم إرسال رابط التأكيد";
-      default: return "";
+      case "login":
+        return "مرحبًا بعودتك!";
+      case "signup":
+        return "انضم إلينا اليوم";
+      case "forgot-password":
+        return "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور";
+      case "reset-password":
+        return "أدخل كلمة مرور جديدة لحسابك";
+      case "check-email":
+        return "تم إرسال رابط إعادة التعيين";
+      case "verification-sent":
+        return "تم إرسال رابط التأكيد";
+      default:
+        return "";
     }
   };
 
@@ -305,7 +366,7 @@ const Auth = () => {
               variant="ghost"
               className="mb-8 gap-2 hover:bg-secondary"
               onClick={() => {
-                if (authView === "forgot-password") {
+                if (authView === "forgot-password" || authView === "reset-password") {
                   setAuthView("login");
                 } else {
                   navigate("/");
@@ -313,7 +374,9 @@ const Auth = () => {
               }}
             >
               <ArrowLeft className="h-4 w-4" />
-              {authView === "forgot-password" ? "العودة لتسجيل الدخول" : "العودة للمتجر"}
+              {authView === "forgot-password" || authView === "reset-password"
+                ? "العودة لتسجيل الدخول"
+                : "العودة للمتجر"}
             </Button>
 
             {/* Logo */}
@@ -349,29 +412,33 @@ const Auth = () => {
                 </div>
               )}
 
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-foreground">البريد الإلكتروني</Label>
-                <div className="relative">
-                  <Mail className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
-                    onBlur={() => validateField("email", formData.email)}
-                    placeholder="example@email.com"
-                    className={`pr-10 h-12 rounded-xl transition-all ${errors.email ? "border-destructive focus-visible:ring-destructive" : "focus-visible:ring-primary"}`}
-                    dir="ltr"
-                  />
+              {authView !== "reset-password" && (
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-foreground">البريد الإلكتروني</Label>
+                  <div className="relative">
+                    <Mail className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => handleInputChange("email", e.target.value)}
+                      onBlur={() => validateField("email", formData.email)}
+                      placeholder="example@email.com"
+                      className={`pr-10 h-12 rounded-xl transition-all ${errors.email ? "border-destructive focus-visible:ring-destructive" : "focus-visible:ring-primary"}`}
+                      dir="ltr"
+                    />
+                  </div>
+                  {errors.email && (
+                    <p className="text-destructive text-sm">{errors.email}</p>
+                  )}
                 </div>
-                {errors.email && (
-                  <p className="text-destructive text-sm">{errors.email}</p>
-                )}
-              </div>
+              )}
 
               {authView !== "forgot-password" && (
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-foreground">كلمة المرور</Label>
+                  <Label htmlFor="password" className="text-foreground">
+                    {authView === "reset-password" ? "كلمة المرور الجديدة" : "كلمة المرور"}
+                  </Label>
                   <div className="relative">
                     <Lock className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
@@ -421,12 +488,14 @@ const Auth = () => {
                   "تسجيل الدخول"
                 ) : authView === "signup" ? (
                   "إنشاء حساب"
+                ) : authView === "reset-password" ? (
+                  "تغيير كلمة المرور"
                 ) : (
                   "إرسال رابط إعادة التعيين"
                 )}
               </Button>
 
-              {authView !== "forgot-password" && (
+              {(authView === "login" || authView === "signup") && (
                 <>
                   {/* Divider */}
                   <div className="relative my-6">
@@ -478,7 +547,7 @@ const Auth = () => {
             <div className="mt-6 text-center">
               <p className="text-muted-foreground">
                 {authView === "login" ? "ليس لديك حساب؟" : authView === "signup" ? "لديك حساب بالفعل؟" : ""}
-                {authView !== "forgot-password" && (
+                {(authView === "login" || authView === "signup") && (
                   <button
                     type="button"
                     onClick={() => {
