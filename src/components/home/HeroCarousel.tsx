@@ -5,49 +5,51 @@ import { toast } from "sonner";
 import heroSlide1 from "@/assets/hero-slide-1.jpg";
 import heroSlide2 from "@/assets/hero-slide-2.jpg";
 import heroSlide3 from "@/assets/hero-slide-3.jpg";
-
-const slides = [
-  {
-    id: 1,
-    title: "توصيل خلال 60 دقيقة",
-    subtitle: "في دبي وأبوظبي",
-    description: "اطلب الآن واستلم منتجك بأسرع وقت",
-    icon: Truck,
-    image: heroSlide1,
-  },
-  {
-    id: 2,
-    title: "عروض نهاية العام",
-    subtitle: "خصومات تصل إلى 70%",
-    description: "لا تفوت أقوى العروض على الإلكترونيات",
-    icon: Clock,
-    image: heroSlide2,
-  },
-  {
-    id: 3,
-    title: "ضمان أصلي 100%",
-    subtitle: "منتجات موثوقة",
-    description: "جميع المنتجات أصلية مع ضمان المصنع",
-    icon: Shield,
-    image: heroSlide3,
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const HeroCarousel = () => {
+  const { t } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      id: 1,
+      titleKey: "deliveryIn60Min",
+      subtitleKey: "inDubaiAbuDhabi",
+      descriptionKey: "orderNowFast",
+      icon: Truck,
+      image: heroSlide1,
+    },
+    {
+      id: 2,
+      titleKey: "yearEndSale",
+      subtitleKey: "upTo70Off",
+      descriptionKey: "dontMissDeals",
+      icon: Clock,
+      image: heroSlide2,
+    },
+    {
+      id: 3,
+      titleKey: "genuineWarranty",
+      subtitleKey: "trustedProducts",
+      descriptionKey: "allProductsOriginal",
+      icon: Shield,
+      image: heroSlide3,
+    },
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
-  const handleShopNow = (slideTitle: string) => {
-    toast.success(`تسوق الآن - ${slideTitle}`);
+  const handleShopNow = (titleKey: string) => {
+    toast.success(`${t("shopNow")} - ${t(titleKey)}`);
   };
 
   return (
@@ -68,7 +70,7 @@ const HeroCarousel = () => {
             <div className="absolute inset-0">
               <img 
                 src={slide.image} 
-                alt={slide.title}
+                alt={t(slide.titleKey)}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-l from-transparent via-foreground/40 to-foreground/70" />
@@ -83,14 +85,14 @@ const HeroCarousel = () => {
                       <slide.icon className="h-8 w-8 text-primary-foreground" />
                     </div>
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-bold mb-2 text-primary-foreground drop-shadow-lg">{slide.title}</h2>
-                  <p className="text-2xl text-primary-foreground font-semibold mb-4 drop-shadow">{slide.subtitle}</p>
-                  <p className="text-primary-foreground/90 text-lg mb-6 drop-shadow">{slide.description}</p>
+                  <h2 className="text-4xl md:text-5xl font-bold mb-2 text-primary-foreground drop-shadow-lg">{t(slide.titleKey)}</h2>
+                  <p className="text-2xl text-primary-foreground font-semibold mb-4 drop-shadow">{t(slide.subtitleKey)}</p>
+                  <p className="text-primary-foreground/90 text-lg mb-6 drop-shadow">{t(slide.descriptionKey)}</p>
                   <Button 
                     className="btn-gradient text-lg px-8 py-6 rounded-xl shadow-lg hover-scale"
-                    onClick={() => handleShopNow(slide.title)}
+                    onClick={() => handleShopNow(slide.titleKey)}
                   >
-                    تسوق الآن
+                    {t("shopNow")}
                   </Button>
                 </div>
               </div>

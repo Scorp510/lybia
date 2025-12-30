@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const brands = [
   { name: "NVIDIA", logo: "https://upload.wikimedia.org/wikipedia/sco/thumb/2/21/Nvidia_logo.svg/200px-Nvidia_logo.svg.png" },
@@ -11,23 +12,25 @@ const brands = [
 ];
 
 const FeaturedBrands = forwardRef<HTMLElement>((_, ref) => {
+  const { t } = useLanguage();
+
   const handleBrandClick = (brandName: string) => {
-    toast.info(`عرض منتجات ${brandName}`);
+    toast.info(`${t("viewBrandProducts")} ${brandName}`);
   };
 
   const handleViewAll = () => {
-    toast.info("عرض جميع العلامات التجارية");
+    toast.info(t("viewAllBrands"));
   };
 
   return (
     <section ref={ref} className="py-8">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">العلامات التجارية</h2>
+        <h2 className="text-2xl font-bold">{t("featuredBrands")}</h2>
         <button 
           onClick={handleViewAll}
           className="text-primary hover:underline text-sm font-medium"
         >
-          عرض الكل
+          {t("viewAll")}
         </button>
       </div>
       

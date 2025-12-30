@@ -1,33 +1,36 @@
 import { Zap, Gift, Percent } from "lucide-react";
 import { toast } from "sonner";
-
-const banners = [
-  {
-    icon: Zap,
-    title: "توصيل سريع",
-    description: "خلال 60 دقيقة في دبي",
-    color: "from-primary/20 via-primary/10 to-transparent",
-    iconColor: "text-primary",
-  },
-  {
-    icon: Percent,
-    title: "خصم 15%",
-    description: "على أول طلب لك",
-    color: "from-sale/20 via-sale/10 to-transparent",
-    iconColor: "text-sale",
-  },
-  {
-    icon: Gift,
-    title: "هدايا مجانية",
-    description: "مع الطلبات فوق 500 د.إ",
-    color: "from-success/20 via-success/10 to-transparent",
-    iconColor: "text-success",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const PromoBanners = () => {
-  const handleBannerClick = (title: string) => {
-    toast.info(`اكتشف المزيد عن: ${title}`);
+  const { t } = useLanguage();
+
+  const banners = [
+    {
+      icon: Zap,
+      titleKey: "fastDeliveryBanner",
+      descriptionKey: "in60MinDubai",
+      color: "from-primary/20 via-primary/10 to-transparent",
+      iconColor: "text-primary",
+    },
+    {
+      icon: Percent,
+      titleKey: "discount15",
+      descriptionKey: "onFirstOrder",
+      color: "from-sale/20 via-sale/10 to-transparent",
+      iconColor: "text-sale",
+    },
+    {
+      icon: Gift,
+      titleKey: "freeGifts",
+      descriptionKey: "withOrdersOver500",
+      color: "from-success/20 via-success/10 to-transparent",
+      iconColor: "text-success",
+    },
+  ];
+
+  const handleBannerClick = (titleKey: string) => {
+    toast.info(`${t("learnMore")}: ${t(titleKey)}`);
   };
 
   return (
@@ -36,7 +39,7 @@ const PromoBanners = () => {
         {banners.map((banner, index) => (
           <button
             key={index}
-            onClick={() => handleBannerClick(banner.title)}
+            onClick={() => handleBannerClick(banner.titleKey)}
             className={`relative overflow-hidden bg-gradient-to-l ${banner.color} bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group cursor-pointer text-right w-full`}
           >
             <div className="flex items-center gap-4">
@@ -44,8 +47,8 @@ const PromoBanners = () => {
                 <banner.icon className="h-8 w-8" />
               </div>
               <div>
-                <h3 className="font-bold text-lg">{banner.title}</h3>
-                <p className="text-muted-foreground text-sm">{banner.description}</p>
+                <h3 className="font-bold text-lg">{t(banner.titleKey)}</h3>
+                <p className="text-muted-foreground text-sm">{t(banner.descriptionKey)}</p>
               </div>
             </div>
             
