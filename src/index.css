@@ -6,92 +6,103 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 220 20% 97%;
+    --foreground: 224 71% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 224 71% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 224 71% 10%;
 
-    --primary: 217 91% 50%;
+    --primary: 220 90% 56%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 224 71% 10%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
 
-    --accent: 217 91% 95%;
-    --accent-foreground: 217 91% 40%;
+    --accent: 43 96% 56%;
+    --accent-foreground: 43 96% 20%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --sale: 0 84% 50%;
+    --sale: 354 100% 55%;
     --sale-foreground: 0 0% 100%;
 
-    --success: 142 76% 36%;
+    --success: 158 64% 42%;
     --success-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 91% 50%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 220 90% 56%;
 
     --radius: 0.75rem;
 
-    --header-bg: 217 91% 50%;
-    --nav-bg: 217 91% 45%;
+    --header-bg: 220 90% 52%;
+    --nav-bg: 220 90% 48%;
     --nav-foreground: 0 0% 100%;
 
     /* Gradient colors */
-    --gradient-start: 217 91% 50%;
-    --gradient-end: 199 89% 48%;
+    --gradient-start: 220 90% 56%;
+    --gradient-end: 262 83% 58%;
+    
+    /* New accent colors */
+    --orange: 25 95% 53%;
+    --orange-foreground: 0 0% 100%;
+    --teal: 173 80% 40%;
+    --teal-foreground: 0 0% 100%;
   }
 
   .dark {
-    --background: 222 47% 8%;
-    --foreground: 210 40% 98%;
+    --background: 224 71% 6%;
+    --foreground: 220 20% 98%;
 
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
+    --card: 224 71% 9%;
+    --card-foreground: 220 20% 98%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 224 71% 9%;
+    --popover-foreground: 220 20% 98%;
 
-    --primary: 217 91% 55%;
+    --primary: 220 90% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 222 47% 15%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 224 71% 14%;
+    --secondary-foreground: 220 20% 98%;
 
-    --muted: 222 47% 15%;
-    --muted-foreground: 215 16% 60%;
+    --muted: 224 71% 14%;
+    --muted-foreground: 220 9% 60%;
 
-    --accent: 217 91% 20%;
-    --accent-foreground: 217 91% 80%;
+    --accent: 43 96% 50%;
+    --accent-foreground: 43 96% 90%;
 
-    --destructive: 0 84% 50%;
+    --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --sale: 0 84% 50%;
+    --sale: 354 100% 60%;
     --sale-foreground: 0 0% 100%;
 
-    --success: 142 76% 40%;
+    --success: 158 64% 48%;
     --success-foreground: 0 0% 100%;
 
-    --border: 222 47% 20%;
-    --input: 222 47% 20%;
-    --ring: 217 91% 55%;
+    --border: 224 71% 18%;
+    --input: 224 71% 18%;
+    --ring: 220 90% 60%;
 
-    --header-bg: 217 91% 35%;
-    --nav-bg: 217 91% 30%;
+    --header-bg: 220 90% 40%;
+    --nav-bg: 220 90% 35%;
     --nav-foreground: 0 0% 100%;
 
-    --gradient-start: 217 91% 40%;
-    --gradient-end: 199 89% 35%;
+    --gradient-start: 220 90% 50%;
+    --gradient-end: 262 83% 50%;
+    
+    --orange: 25 95% 58%;
+    --orange-foreground: 0 0% 100%;
+    --teal: 173 80% 45%;
+    --teal-foreground: 0 0% 100%;
   }
 
   * {
@@ -109,15 +120,27 @@
   }
   
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(217 91% 50%) 0%, hsl(199 89% 48%) 100%);
+    background: linear-gradient(135deg, hsl(var(--gradient-start)) 0%, hsl(var(--gradient-end)) 100%);
   }
 
   .gradient-header {
-    background: linear-gradient(135deg, hsl(217 91% 50%) 0%, hsl(217 91% 40%) 100%);
+    background: linear-gradient(135deg, hsl(var(--header-bg)) 0%, hsl(262 83% 50%) 100%);
   }
 
   .gradient-hover {
-    background: linear-gradient(135deg, hsl(217 91% 45%) 0%, hsl(199 89% 43%) 100%);
+    background: linear-gradient(135deg, hsl(220 90% 50%) 0%, hsl(262 83% 52%) 100%);
+  }
+
+  .gradient-orange {
+    background: linear-gradient(135deg, hsl(var(--orange)) 0%, hsl(354 100% 55%) 100%);
+  }
+
+  .gradient-teal {
+    background: linear-gradient(135deg, hsl(var(--teal)) 0%, hsl(220 90% 56%) 100%);
+  }
+
+  .gradient-gold {
+    background: linear-gradient(135deg, hsl(43 96% 56%) 0%, hsl(25 95% 53%) 100%);
   }
   
   .hover-scale {
@@ -129,15 +152,19 @@
   }
   
   .card-shadow {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px hsl(224 71% 10% / 0.06);
   }
 
   .card-shadow-hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 40px hsl(224 71% 10% / 0.12);
   }
   
-  .glow-blue {
-    box-shadow: 0 0 20px hsl(217 91% 50% / 0.3);
+  .glow-primary {
+    box-shadow: 0 0 30px hsl(220 90% 56% / 0.35);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 30px hsl(43 96% 56% / 0.4);
   }
 
   .btn-gradient {
@@ -146,5 +173,13 @@
 
   .btn-gradient:hover {
     @apply gradient-hover shadow-lg;
+  }
+
+  .btn-gradient-accent {
+    @apply gradient-gold text-white font-semibold transition-all duration-300;
+  }
+
+  .btn-gradient-accent:hover {
+    @apply shadow-lg brightness-110;
   }
 }
